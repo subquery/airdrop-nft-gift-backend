@@ -1,0 +1,25 @@
+# To improve query performance, we strongly suggest adding indexes to any field that you plan to filter or sort by
+# Add the `@index` or `@index(unique: true)` annotation after any non-key field
+# https://academy.subquery.network/build/graphql.html#indexing-by-non-primary-key-field
+
+type Series @entity {
+  id: ID! # series id
+  tokenURI: String! # cid of IPFS
+  maxSupply: BigInt!
+  active: Boolean!
+  userNft: [UserNft]! @derivedFrom(field: "series")
+  userUnclaimedNft: [UserUnclaimedNft]! @derivedFrom(field: "series")
+}
+
+type UserUnclaimedNft @entity {
+  id: ID! # seriesId + address
+  series: Series!
+  amount: BigInt!
+  address: String!
+}
+
+type UserNft @entity @compositeIndexes(fields: [["address", "series"]]) {
+  id: ID! # tokenId
+  address: String! # owner address
+  series: Series
+}

@@ -1,0 +1,59 @@
+# // Auto-generated , DO NOT EDIT
+specVersion: 1.0.0
+version: 0.0.1
+name: polygon-subql-starter
+description: >-
+  This project can be use as a starting point for developing your new polygon
+  SubQuery project
+runner:
+  node:
+    name: '@subql/node-ethereum'
+    version: '>=3.0.0'
+  query:
+    name: '@subql/query'
+    version: '*'
+schema:
+  file: ./schema.graphql
+network:
+  chainId: '137'
+  endpoint:
+    - >-
+
+dataSources:
+  - kind: ethereum/Runtime
+    startBlock: 52070368
+    options:
+      abi: SQTGift
+      address: '0x8845CEefA2914172E81b40E8Cc2534259D7BA966'
+    assets:
+      SQTGift:
+        file: ./abis/SQTGift.json
+    mapping:
+      file: ./dist/index.js
+      handlers:
+        - handler: handleAllowListAddedSQTGiftLog
+          kind: ethereum/LogHandler
+          filter:
+            topics:
+              - 'AllowListAdded(address,uint256,uint8)'
+        - handler: handleAllowListRemovedSQTGiftLog
+          kind: ethereum/LogHandler
+          filter:
+            topics:
+              - 'AllowListRemoved(address,uint256,uint8)'
+        - handler: handleGiftMintedSQTGiftLog
+          kind: ethereum/LogHandler
+          filter:
+            topics:
+              - 'GiftMinted(address,uint256,uint256,string)'
+        - handler: handleSeriesCreatedSQTGiftLog
+          kind: ethereum/LogHandler
+          filter:
+            topics:
+              - 'SeriesCreated(uint256,uint256,string)'
+        - handler: handleSeriesActiveUpdatedSQTGiftLog
+          kind: ethereum/LogHandler
+          filter:
+            topics:
+              - 'SeriesActiveUpdated(uint256,bool)'
+repository: 'https://github.com/subquery/ethereum-subql-starter'
