@@ -27,7 +27,7 @@
     "assert": "^2.0.0"
   },
   "devDependencies": {
-    "@subql/contract-sdk": "0.112.1-0",
+    "@subql/contract-sdk": "0.114.1",
     "@subql/cli": "latest",
     "@subql/node-ethereum": "latest",
     "@subql/testing": "latest",

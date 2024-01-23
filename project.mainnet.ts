@@ -29,7 +29,7 @@ const project: EthereumProject = {
      * chainId is the EVM Chain ID, for Polygon this is 137
      * https://chainlist.org/chain/137
      */
-    chainId: "137",
+    chainId: "8453",
     /**
      * These endpoint(s) should be public non-pruned archive node
      * We recommend providing more than one endpoint for improved reliability, performance, and uptime
@@ -43,10 +43,10 @@ const project: EthereumProject = {
   },
   dataSources: [{
     kind: EthereumDatasourceKind.Runtime,
-    startBlock: 52070368,
+    startBlock: 9600683,
     options: {
       abi: 'SQTGift',
-      address: '0x8845CEefA2914172E81b40E8Cc2534259D7BA966',
+      address: '0x86DF167B61bd62320058FCc9099D82FebB9a054b',
     },
     assets: new Map([['SQTGift', {file: './abis/SQTGift.json'}]]),
     mapping: {

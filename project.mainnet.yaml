@@ -15,16 +15,15 @@ runner:
 schema:
   file: ./schema.graphql
 network:
-  chainId: '137'
+  chainId: '8453'
   endpoint:
-    - >-
-
+    - ''
 dataSources:
   - kind: ethereum/Runtime
-    startBlock: 52070368
+    startBlock: 9600683
     options:
       abi: SQTGift
-      address: '0x8845CEefA2914172E81b40E8Cc2534259D7BA966'
+      address: '0x86DF167B61bd62320058FCc9099D82FebB9a054b'
     assets:
       SQTGift:
         file: ./abis/SQTGift.json
