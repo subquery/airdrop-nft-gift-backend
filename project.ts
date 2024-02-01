@@ -38,7 +38,7 @@ const project: EthereumProject = {
      * If you use a rate limited endpoint, adjust the --batch-size and --workers parameters
      * These settings can be found in your docker-compose.yaml, they will slow indexing but prevent your project being rate limited
      */
-    endpoint: [""],
+    endpoint: [],
     
   },
   dataSources: [{
@@ -100,6 +100,29 @@ const project: EthereumProject = {
 ]
     }
   },
+  {
+    kind: EthereumDatasourceKind.Runtime,
+    startBlock: 5456894,
+    options: {
+      abi: 'SQTRedeem',
+      address: '0x7c2c254a7Ae5642Af32F17e46601019C089a90ff',
+    },
+    assets: new Map([['SQTRedeem', {file: './abis/SQTRedeem.json'}]]),
+    mapping: {
+      file: './dist/index.js',
+      handlers: [
+        {
+          handler: "handleSQTRedeemed",
+          kind: EthereumHandlerKind.Event,
+          filter: {
+            topics: [
+              "SQTRedeemed(address,uint256,uint256,address,uint256)"
+            ]
+          }
+        },
+      ]
+    }
+  }
   ],
   repository: "https://github.com/subquery/ethereum-subql-starter",
 };
