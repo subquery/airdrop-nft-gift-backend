@@ -28,7 +28,7 @@
   },
   "devDependencies": {
     "@subql/cli": "latest",
-    "@subql/contract-sdk": "0.116.0",
+    "@subql/contract-sdk": "1.0.1",
     "@subql/node-ethereum": "latest",
     "@subql/testing": "latest",
     "@subql/types": "latest",

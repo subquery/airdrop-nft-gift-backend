@@ -105,7 +105,7 @@ const project: EthereumProject = {
     startBlock: 9600683,
     options: {
       abi: 'SQTRedeem',
-      address: '0x7c2c254a7Ae5642Af32F17e46601019C089a90ff', // TODO: change it
+      address: '0x6bC17BaDE85AE02326db4123a339C370e6D06b35',
     },
     assets: new Map([['SQTRedeem', {file: './abis/SQTRedeem.json'}]]),
     mapping: {
