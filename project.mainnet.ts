@@ -100,6 +100,29 @@ const project: EthereumProject = {
 ]
     }
   },
+  {
+    kind: EthereumDatasourceKind.Runtime,
+    startBlock: 9600683,
+    options: {
+      abi: 'SQTRedeem',
+      address: '0x6bC17BaDE85AE02326db4123a339C370e6D06b35',
+    },
+    assets: new Map([['SQTRedeem', {file: './abis/SQTRedeem.json'}]]),
+    mapping: {
+      file: './dist/index.js',
+      handlers: [
+        {
+          handler: "handleSQTRedeemed",
+          kind: EthereumHandlerKind.Event,
+          filter: {
+            topics: [
+              "SQTRedeemed(address,uint256,uint256,address,uint256)"
+            ]
+          }
+        },
+      ]
+    }
+  }
   ],
   repository: "https://github.com/subquery/ethereum-subql-starter",
 };

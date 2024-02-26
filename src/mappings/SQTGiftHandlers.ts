@@ -48,7 +48,6 @@ export async function handleGiftMintedSQTGiftLog(log: GiftMintedLog ): Promise<v
   if (!args) return
   const [account, sericesId, tokenId] = args
   
-  // const existUnclaimedNft = await UserUnclaimedNft.get(`${account}-${sericesId.toString()}`)
   await UserUnclaimedNft.remove(`${account}-${sericesId.toString()}`)
   
   const nfts = UserNft.create({

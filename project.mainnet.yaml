@@ -55,4 +55,20 @@ dataSources:
           filter:
             topics:
               - 'SeriesActiveUpdated(uint256,bool)'
+  - kind: ethereum/Runtime
+    startBlock: 9600683
+    options:
+      abi: SQTRedeem
+      address: '0x6bC17BaDE85AE02326db4123a339C370e6D06b35'
+    assets:
+      SQTRedeem:
+        file: ./abis/SQTRedeem.json
+    mapping:
+      file: ./dist/index.js
+      handlers:
+        - handler: handleSQTRedeemed
+          kind: ethereum/LogHandler
+          filter:
+            topics:
+              - 'SQTRedeemed(address,uint256,uint256,address,uint256)'
 repository: 'https://github.com/subquery/ethereum-subql-starter'

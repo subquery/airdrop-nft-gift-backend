@@ -9,6 +9,7 @@ type Series @entity {
   active: Boolean!
   userNft: [UserNft]! @derivedFrom(field: "series")
   userUnclaimedNft: [UserUnclaimedNft]! @derivedFrom(field: "series")
+  userRedeemedNft: [UserRedeemedNft]! @derivedFrom(field: "series")
 }
 
 type UserUnclaimedNft @entity {
@@ -22,4 +23,12 @@ type UserNft @entity @compositeIndexes(fields: [["address", "series"]]) {
   id: ID! # tokenId
   address: String! # owner address
   series: Series
+}
+
+type UserRedeemedNft @entity {
+  id: ID! # tokenId + seriesId
+  tokenId: String!
+  series: Series!
+  amount: BigInt!
+  address: String!
 }
