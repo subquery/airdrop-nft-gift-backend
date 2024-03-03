@@ -55,6 +55,11 @@ dataSources:
           filter:
             topics:
               - 'SeriesActiveUpdated(uint256,bool)'
+        - handler: handleTransfer
+          kind: ethereum/LogHandler
+          filter:
+            topics:
+              - 'Transfer(address,address,uint256)'
   - kind: ethereum/Runtime
     startBlock: 9600683
     options:

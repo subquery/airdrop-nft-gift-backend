@@ -2,12 +2,20 @@
 
 // Auto-generated
 
-import { Series, UserNft, UserUnclaimedNft } from "../types";
-import {AllowListAddedLog,AllowListRemovedLog,GiftMintedLog,SeriesCreatedLog,SeriesActiveUpdatedLog,} from "../types/abi-interfaces/SQTGift";
+import {NftOwnerChanges, Series, UserNft, UserUnclaimedNft} from "../types";
+import {
+  AllowListAddedLog,
+  AllowListRemovedLog,
+  GiftMintedLog,
+  SeriesActiveUpdatedLog,
+  SeriesCreatedLog,
+  TransferLog,
+} from "../types/abi-interfaces/SQTGift";
+import assert from "assert";
 
 
-export async function handleAllowListAddedSQTGiftLog(log: AllowListAddedLog ): Promise<void> {
-  const { args } = log
+export async function handleAllowListAddedSQTGiftLog(log: AllowListAddedLog): Promise<void> {
+  const {args} = log
   if (!args) return
   const [account, sericesId, amount] = args
   const existUserSericesItem = await UserUnclaimedNft.get(`${account}-${sericesId}`)
@@ -27,8 +35,8 @@ export async function handleAllowListAddedSQTGiftLog(log: AllowListAddedLog ): P
   await userUnclaimedNft.save()
 }
 
-export async function handleAllowListRemovedSQTGiftLog(log: AllowListRemovedLog ): Promise<void> {
-  const { args } = log
+export async function handleAllowListRemovedSQTGiftLog(log: AllowListRemovedLog): Promise<void> {
+  const {args} = log
   if (!args) return
   const [account, sericesId, amount] = args
   const existUserSericesItem = await UserUnclaimedNft.get(`${account}-${sericesId}`)
@@ -43,13 +51,13 @@ export async function handleAllowListRemovedSQTGiftLog(log: AllowListRemovedLog 
   }
 }
 
-export async function handleGiftMintedSQTGiftLog(log: GiftMintedLog ): Promise<void> {
-  const { args } = log
+export async function handleGiftMintedSQTGiftLog(log: GiftMintedLog): Promise<void> {
+  const {args} = log
   if (!args) return
   const [account, sericesId, tokenId] = args
-  
+
   await UserUnclaimedNft.remove(`${account}-${sericesId.toString()}`)
-  
+
   const nfts = UserNft.create({
     id: tokenId.toString(),
     seriesId: sericesId.toString(),
@@ -59,8 +67,8 @@ export async function handleGiftMintedSQTGiftLog(log: GiftMintedLog ): Promise<v
   await nfts.save()
 }
 
-export async function handleSeriesCreatedSQTGiftLog(log: SeriesCreatedLog ): Promise<void> {
-  const { args } = log
+export async function handleSeriesCreatedSQTGiftLog(log: SeriesCreatedLog): Promise<void> {
+  const {args} = log
   if (!args) return
   const sericesItem = Series.create({
     id: args[0].toString(),
@@ -72,8 +80,8 @@ export async function handleSeriesCreatedSQTGiftLog(log: SeriesCreatedLog ): Pro
   await sericesItem.save()
 }
 
-export async function handleSeriesActiveUpdatedSQTGiftLog(log: SeriesActiveUpdatedLog ): Promise<void> {
-  const { args } = log
+export async function handleSeriesActiveUpdatedSQTGiftLog(log: SeriesActiveUpdatedLog): Promise<void> {
+  const {args} = log
   if (!args) return
 
   const sericesItem = await Series.get(args[0].toString())
@@ -82,4 +90,22 @@ export async function handleSeriesActiveUpdatedSQTGiftLog(log: SeriesActiveUpdat
 
   sericesItem.active = args[1]
   await sericesItem.save()
+}
+
+export async function handleTransfer(log: TransferLog): Promise<void> {
+  assert(log.args, 'failed to decode transfer log');
+  const {from, to, tokenId} = log.args;
+  if (from !== '0x0000000000000000000000000000000000000000') {
+    await NftOwnerChanges.create({
+      id: `${log.transactionHash}:${log.logIndex}`,
+      oldOwner: from,
+      newOwner: to,
+      tokenId: tokenId.toNumber(),
+    }).save();
+  }
+  const nft = await UserNft.get(tokenId.toString());
+  if (nft) {
+    nft.address = to;
+    await nft.save();
+  }
 }

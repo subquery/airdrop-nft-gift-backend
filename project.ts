@@ -1,8 +1,4 @@
-import {
-  EthereumProject,
-  EthereumDatasourceKind,
-  EthereumHandlerKind,
-} from "@subql/types-ethereum";
+import {EthereumDatasourceKind, EthereumHandlerKind, EthereumProject,} from "@subql/types-ethereum";
 
 // Can expand the Datasource processor types via the generic param
 const project: EthereumProject = {
@@ -39,7 +35,7 @@ const project: EthereumProject = {
      * These settings can be found in your docker-compose.yaml, they will slow indexing but prevent your project being rate limited
      */
     endpoint: [],
-    
+
   },
   dataSources: [{
     kind: EthereumDatasourceKind.Runtime,
@@ -52,77 +48,86 @@ const project: EthereumProject = {
     mapping: {
       file: './dist/index.js',
       handlers: [
-  {
-    handler: "handleAllowListAddedSQTGiftLog",
-    kind: EthereumHandlerKind.Event,
-    filter: {
-      topics: [
-        "AllowListAdded(address,uint256,uint8)"
-      ]
-    }
-  },
-  {
-    handler: "handleAllowListRemovedSQTGiftLog",
-    kind: EthereumHandlerKind.Event,
-    filter: {
-      topics: [
-        "AllowListRemoved(address,uint256,uint8)"
-      ]
-    }
-  },
-  {
-    handler: "handleGiftMintedSQTGiftLog",
-    kind: EthereumHandlerKind.Event,
-    filter: {
-      topics: [
-        "GiftMinted(address,uint256,uint256,string)"
-      ]
-    }
-  },
-  {
-    handler: "handleSeriesCreatedSQTGiftLog",
-    kind: EthereumHandlerKind.Event,
-    filter: {
-      topics: [
-        "SeriesCreated(uint256,uint256,string)"
-      ]
-    }
-  },
-  {
-    handler: "handleSeriesActiveUpdatedSQTGiftLog",
-    kind: EthereumHandlerKind.Event,
-    filter: {
-      topics: [
-        "SeriesActiveUpdated(uint256,bool)"
-      ]
-    }
-  }
-]
-    }
-  },
-  {
-    kind: EthereumDatasourceKind.Runtime,
-    startBlock: 5456894,
-    options: {
-      abi: 'SQTRedeem',
-      address: '0x7c2c254a7Ae5642Af32F17e46601019C089a90ff',
-    },
-    assets: new Map([['SQTRedeem', {file: './abis/SQTRedeem.json'}]]),
-    mapping: {
-      file: './dist/index.js',
-      handlers: [
         {
-          handler: "handleSQTRedeemed",
+          handler: "handleAllowListAddedSQTGiftLog",
           kind: EthereumHandlerKind.Event,
           filter: {
             topics: [
-              "SQTRedeemed(address,uint256,uint256,address,uint256)"
+              "AllowListAdded(address,uint256,uint8)"
             ]
           }
         },
+        {
+          handler: "handleAllowListRemovedSQTGiftLog",
+          kind: EthereumHandlerKind.Event,
+          filter: {
+            topics: [
+              "AllowListRemoved(address,uint256,uint8)"
+            ]
+          }
+        },
+        {
+          handler: "handleGiftMintedSQTGiftLog",
+          kind: EthereumHandlerKind.Event,
+          filter: {
+            topics: [
+              "GiftMinted(address,uint256,uint256,string)"
+            ]
+          }
+        },
+        {
+          handler: "handleSeriesCreatedSQTGiftLog",
+          kind: EthereumHandlerKind.Event,
+          filter: {
+            topics: [
+              "SeriesCreated(uint256,uint256,string)"
+            ]
+          }
+        },
+        {
+          handler: "handleSeriesActiveUpdatedSQTGiftLog",
+          kind: EthereumHandlerKind.Event,
+          filter: {
+            topics: [
+              "SeriesActiveUpdated(uint256,bool)"
+            ]
+          }
+        },
+        {
+          handler: "handleTransfer",
+          kind: EthereumHandlerKind.Event,
+          filter: {
+            topics: [
+              "Transfer(address,address,uint256)"
+            ]
+          }
+        }
       ]
     }
-  }
+  },
+    {
+      kind: EthereumDatasourceKind.Runtime,
+      startBlock: 5456894,
+      options: {
+        abi: 'SQTRedeem',
+        address: '0x7c2c254a7Ae5642Af32F17e46601019C089a90ff',
+      },
+      assets: new Map([['SQTRedeem', {file: './abis/SQTRedeem.json'}]]),
+      mapping: {
+        file: './dist/index.js',
+        handlers: [
+          {
+            handler: "handleSQTRedeemed",
+            kind: EthereumHandlerKind.Event,
+            filter: {
+              topics: [
+                "SQTRedeemed(address,uint256,uint256,address,uint256)"
+              ]
+            }
+          },
+        ]
+      }
+    }
   ],
   repository: "https://github.com/subquery/ethereum-subql-starter",
 };

@@ -32,3 +32,10 @@ type UserRedeemedNft @entity {
   amount: BigInt!
   address: String!
 }
+
+type NftOwnerChanges @entity {
+  id: ID! # txhash + eventIdx
+  tokenId: Int!
+  oldOwner: String!
+  newOwner: String!
+}
